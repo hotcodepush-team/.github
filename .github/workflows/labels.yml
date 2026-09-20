@@ -16,6 +16,7 @@ on:
       - 'labels/**'
 
 permissions:
+  contents: read
   issues: write
 
 jobs:
