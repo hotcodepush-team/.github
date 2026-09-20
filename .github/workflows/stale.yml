@@ -1,0 +1,34 @@
+name: Stale
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    name: Stale
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v11
+        with:
+          days-before-stale: 21
+          days-before-close: 7
+          stale-issue-label: stale
+          stale-pr-label: stale
+          exempt-issue-labels: evergreen
+          exempt-pr-labels: evergreen
+          exempt-all-milestones: true
+          stale-issue-message: >
+            Nothing has happened here for 21 days, so this is labeled `stale` and closes in 7 more.
+            Any comment resets the clock; the `evergreen` label or a milestone exempts it for good.
+          stale-pr-message: >
+            Nothing has happened here for 21 days, so this is labeled `stale` and closes in 7 more.
+            Any comment or push resets the clock; the `evergreen` label or a milestone exempts it for good.
+          close-issue-message: >
+            Closing this after 28 days without activity. Comment if it is still relevant and we reopen it.
+          close-pr-message: >
+            Closing this after 28 days without activity. Reopen it when you pick the change back up.
