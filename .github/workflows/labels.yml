@@ -26,5 +26,5 @@ jobs:
       - uses: actions/checkout@v7
       - uses: EndBug/label-sync@v2
         with:
-          delete-other-labels: ${{ inputs.prune }}
+          delete-other-labels: ${{ inputs.prune == true }}
           config-file: labels/common.yml
