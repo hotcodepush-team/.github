@@ -1,0 +1,6 @@
+- name: autorelease/pending
+  color: 'ededed'
+  description: Release pending; managed by release-please
+- name: autorelease/tagged
+  color: 'ededed'
+  description: Release tagged; managed by release-please

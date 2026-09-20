@@ -1,0 +1,29 @@
+name: Sync labels
+
+on:
+  workflow_dispatch:
+    inputs:
+      prune:
+        description: Delete labels that are not in the manifests
+        type: boolean
+        default: false
+  schedule:
+    - cron: '0 6 * * 1'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/labels.yml'
+      - 'labels/**'
+
+permissions:
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: EndBug/label-sync@v2
+        with:
+          delete-other-labels: ${{ inputs.prune }}
+          config-file: labels/common.yml

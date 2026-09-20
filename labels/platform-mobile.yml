@@ -1,0 +1,9 @@
+- name: platform/android
+  color: '0d61aa'
+  description: Specific to Android
+- name: platform/ios
+  color: '0d61aa'
+  description: Specific to iOS
+- name: platform/web
+  color: '0d61aa'
+  description: Specific to the web

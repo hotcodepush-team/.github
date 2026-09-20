@@ -1,0 +1,12 @@
+- name: area/api
+  color: '18a59b'
+  description: Specific to the API
+- name: area/console
+  color: '18a59b'
+  description: Specific to the console
+- name: area/website
+  color: '18a59b'
+  description: Specific to the website and the docs site
+- name: area/mcp
+  color: '18a59b'
+  description: Specific to the MCP server

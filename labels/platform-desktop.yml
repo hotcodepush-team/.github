@@ -1,0 +1,9 @@
+- name: platform/macos
+  color: '0d61aa'
+  description: Specific to macOS
+- name: platform/windows
+  color: '0d61aa'
+  description: Specific to Windows
+- name: platform/linux
+  color: '0d61aa'
+  description: Specific to Linux

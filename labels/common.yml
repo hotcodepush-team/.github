@@ -1,0 +1,90 @@
+- name: type/bug
+  color: 'd73a4a'
+  description: Something isn't working
+- name: type/feature
+  color: '8365ed'
+  description: New feature or request
+- name: type/docs
+  color: '0075ca'
+  description: Documentation or website content
+- name: type/perf
+  color: '0e8a16'
+  description: Performance improvement
+- name: type/refactor
+  color: 'dedede'
+  description: Code change that neither fixes a bug nor adds a feature
+- name: type/test
+  color: '006b75'
+  description: Adding or correcting tests
+- name: type/build
+  color: 'bfdadc'
+  description: Build system or tooling
+- name: type/ci
+  color: '626262'
+  description: Continuous integration configuration
+- name: type/chore
+  color: 'fef2c0'
+  description: Task that fits no other type
+- name: type/question
+  color: 'd876e3'
+  description: Further information is requested
+- name: priority/high
+  color: 'b60205'
+  description: Next release; blocks users or costs money
+- name: priority/medium
+  color: 'd93f0b'
+  description: Planned for one of the next releases
+- name: priority/low
+  color: 'fbca04'
+  description: Nice to have; first candidate for `help-wanted`
+- name: state/needs-triage
+  color: '597149'
+  description: Not yet reviewed by a maintainer
+- name: state/needs-reply
+  color: '576a21'
+  description: Waiting for a reply from the author
+- name: state/needs-maintainer
+  color: 'b4a8d1'
+  description: Waiting for a maintainer's answer or approval; set by the agents
+- name: state/needs-reproduction
+  color: '8b09d4'
+  description: A minimal reproduction is required
+- name: state/blocked
+  color: 'e99695'
+  description: Blocked by an upstream issue or external dependency
+- name: state/duplicate
+  color: '000000'
+  description: Already tracked in another issue
+- name: state/invalid
+  color: '000000'
+  description: Not actionable, e.g. incomplete or off-topic
+- name: state/wontfix
+  color: 'ffffff'
+  description: Deliberately not going to be worked on
+- name: breaking-change
+  color: 'd4c5f9'
+  description: Resolution requires a major release
+- name: help-wanted
+  color: '008672'
+  description: Not on the roadmap soon; comment `assign me` to claim it
+- name: good-first-issue
+  color: '7057ff'
+  description: Small, self-contained, approach described in the issue; implies `help-wanted`
+- name: dependencies
+  color: '0052cc'
+  description: Dependency update; set by Dependabot or Renovate
+- name: stale
+  color: 'cccccc'
+  description: Idle 21 days; closes in 7 more unless activity resumes; set by `stale.yml`
+- name: evergreen
+  color: 'c5def5'
+  description: Exempt from auto-close; roadmap and long-running items
+- name: factory
+  color: 'bfd4f2'
+  description: Implementation delegated to the coding agent; a maintainer approves the plan and reviews the PR
+- name: idea
+  color: 'c2e0c6'
+  description: An unshaped idea — question, refactoring thought, maybe-feature; filed by the Idea form
+- name: review
+  color: '1d76db'
+  description: A maintainer asks for the agent review on any PR; it re-runs on every push — remove it to stop
