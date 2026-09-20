@@ -1,0 +1,326 @@
+name: Contributions
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  pull-request-title:
+    name: Conventional commit title
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v9
+        with:
+          script: |
+            const types = ['feat', 'fix', 'docs', 'perf', 'refactor', 'test', 'build', 'ci', 'chore'];
+            const title = context.payload.pull_request.title;
+            const pattern = new RegExp(`^(${types.join('|')})(\\([^()]+\\))?!?: .+`);
+            if (pattern.test(title)) {
+              return;
+            }
+            core.setFailed(
+              `"${title}" is not a conventional commit. ` +
+              `Expected "<type>(<scope>)!: <subject>" with the type one of: ${types.join(', ')}. ` +
+              `The title becomes the squash commit that release-please reads.`,
+            );
+
+  pull-request-linked-issue:
+    name: Linked issue
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    outputs:
+      issue: ${{ steps.link.outputs.issue }}
+    steps:
+      - uses: actions/github-script@v9
+        id: link
+        with:
+          script: |
+            const pullRequest = context.payload.pull_request;
+            if (pullRequest.user.type === 'Bot') {
+              core.info('The author is a bot, which is exempt.');
+              return;
+            }
+            const match = /\b(?:closes|fixes|resolves)\s+#(\d+)\b/i.exec(pullRequest.body ?? '');
+            if (!match) {
+              core.setFailed(
+                'The pull request body does not link an issue. ' +
+                'Add "Closes #<issue>", "Fixes #<issue>" or "Resolves #<issue>".',
+              );
+              return;
+            }
+            core.setOutput('issue', match[1]);
+
+  pull-request-author:
+    name: Author is assigned
+    if: github.event_name == 'pull_request_target' && needs.pull-request-linked-issue.outputs.issue != ''
+    needs: pull-request-linked-issue
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v9
+        env:
+          LINKED_ISSUE: ${{ needs.pull-request-linked-issue.outputs.issue }}
+          CONTRIBUTING_URL: https://github.com/hotcodepush-team/.github/blob/main/CONTRIBUTING.md
+        with:
+          script: |
+            const pullRequest = context.payload.pull_request;
+            if (pullRequest.state !== 'open') {
+              return;
+            }
+            const author = pullRequest.user.login;
+            const issueNumber = Number(process.env.LINKED_ISSUE);
+
+            const hasWriteAccess = async () => {
+              try {
+                const { data } = await github.rest.repos.getCollaboratorPermissionLevel({
+                  ...context.repo,
+                  username: author,
+                });
+                return data.permission === 'admin' || data.permission === 'write';
+              } catch {
+                return false;
+              }
+            };
+
+            if (pullRequest.user.type === 'Bot' || (await hasWriteAccess())) {
+              core.info(`${author} is exempt from the assignment gate.`);
+              return;
+            }
+
+            const { data: issue } = await github.rest.issues.get({ ...context.repo, issue_number: issueNumber });
+            if (issue.assignees.some(assignee => assignee.login === author)) {
+              return;
+            }
+
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: pullRequest.number,
+              body:
+                `Thanks for the pull request, @${author}. We ask before we code: #${issueNumber} is not assigned to you, ` +
+                `so this pull request is closed for now.\n\n` +
+                `Comment on #${issueNumber} and a maintainer assigns it. On issues labeled \`help-wanted\` or ` +
+                `\`good-first-issue\`, comment \`assign me\` and you are assigned right away. ` +
+                `Reopen this pull request once you are, and this check passes.\n\n` +
+                `[Contributing](${process.env.CONTRIBUTING_URL})`,
+            });
+            await github.rest.pulls.update({ ...context.repo, pull_number: pullRequest.number, state: 'closed' });
+            core.setFailed(`@${author} is not assigned to #${issueNumber}.`);
+
+  issue-comment:
+    name: Issue comment
+    if: github.event_name == 'issue_comment' && github.event.action == 'created'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Claim an issue with "assign me"
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { issue, comment } = context.payload;
+            if (issue.pull_request || comment.user.type === 'Bot') {
+              return;
+            }
+            if (!/^assign me\b/i.test(comment.body.trim())) {
+              return;
+            }
+
+            const claimant = comment.user.login;
+            const createComment = body => github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: issue.number,
+              body,
+            });
+
+            const labels = issue.labels.map(label => label.name);
+            if (!labels.includes('help-wanted') && !labels.includes('good-first-issue')) {
+              await createComment(
+                `Thanks, @${claimant}. On this issue a maintainer decides who implements it, and assigns them. ` +
+                `Issues labeled \`help-wanted\` or \`good-first-issue\` are the ones you can claim yourself.`,
+              );
+              return;
+            }
+
+            const assignees = issue.assignees.map(assignee => assignee.login);
+            if (assignees.includes(claimant)) {
+              return;
+            }
+            if (assignees.length >= 2) {
+              await createComment(
+                `Thanks, @${claimant}. This issue is already taken by ${assignees.map(login => `@${login}`).join(' and ')}. ` +
+                `Ask again if it frees up.`,
+              );
+              return;
+            }
+
+            await github.rest.issues.addAssignees({
+              ...context.repo,
+              issue_number: issue.number,
+              assignees: [claimant],
+            });
+            await createComment(
+              `It is yours, @${claimant}. Open a pull request with \`Closes #${issue.number}\` in the body. ` +
+              `The assignment is released after 14 days without a comment or an open pull request.`,
+            );
+
+      - name: Remove state/needs-reply on an answer from the author
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { issue, comment } = context.payload;
+            if (comment.user.login !== issue.user.login) {
+              return;
+            }
+            if (!issue.labels.some(label => label.name === 'state/needs-reply')) {
+              return;
+            }
+            try {
+              await github.rest.issues.removeLabel({
+                ...context.repo,
+                issue_number: issue.number,
+                name: 'state/needs-reply',
+              });
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+            }
+
+  scheduled:
+    name: Daily sweep
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release idle assignments
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const IDLE_DAYS = 14;
+            const cutoff = Date.now() - IDLE_DAYS * 24 * 60 * 60 * 1000;
+
+            const openPullRequests = await github.paginate(github.rest.pulls.list, {
+              ...context.repo,
+              state: 'open',
+              per_page: 100,
+            });
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              ...context.repo,
+              state: 'open',
+              assignee: '*',
+              per_page: 100,
+            });
+
+            for (const issue of issues) {
+              if (issue.pull_request) {
+                continue;
+              }
+              const reference = new RegExp(`#${issue.number}\\b`);
+              const events = await github.paginate(github.rest.issues.listEvents, {
+                ...context.repo,
+                issue_number: issue.number,
+                per_page: 100,
+              });
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                ...context.repo,
+                issue_number: issue.number,
+                per_page: 100,
+              });
+
+              for (const assignee of issue.assignees) {
+                const login = assignee.login;
+                const worksOnIt = openPullRequests.some(pullRequest =>
+                  pullRequest.user.login === login &&
+                  (reference.test(pullRequest.body ?? '') || reference.test(pullRequest.title)),
+                );
+                if (worksOnIt) {
+                  continue;
+                }
+
+                const times = [
+                  ...events
+                    .filter(event => event.event === 'assigned' && event.assignee?.login === login)
+                    .map(event => Date.parse(event.created_at)),
+                  ...comments
+                    .filter(comment => comment.user?.login === login)
+                    .map(comment => Date.parse(comment.created_at)),
+                ];
+                const lastActivity = Math.max(...times);
+                if (!times.length || lastActivity > cutoff) {
+                  continue;
+                }
+
+                await github.rest.issues.removeAssignees({
+                  ...context.repo,
+                  issue_number: issue.number,
+                  assignees: [login],
+                });
+                await github.rest.issues.createComment({
+                  ...context.repo,
+                  issue_number: issue.number,
+                  body:
+                    `@${login} this issue is unassigned again after ${IDLE_DAYS} days without a comment or an open ` +
+                    `pull request. Nothing lost — comment \`assign me\` and it is yours again.`,
+                });
+              }
+            }
+
+      - name: Close issues that never got an answer
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const IDLE_DAYS = 14;
+            const cutoff = Date.now() - IDLE_DAYS * 24 * 60 * 60 * 1000;
+
+            for (const label of ['state/needs-reply', 'state/needs-reproduction']) {
+              const issues = await github.paginate(github.rest.issues.listForRepo, {
+                ...context.repo,
+                state: 'open',
+                labels: label,
+                per_page: 100,
+              });
+
+              for (const issue of issues) {
+                if (issue.pull_request) {
+                  continue;
+                }
+                const events = await github.paginate(github.rest.issues.listEvents, {
+                  ...context.repo,
+                  issue_number: issue.number,
+                  per_page: 100,
+                });
+                const labeledAt = events
+                  .filter(event => event.event === 'labeled' && event.label?.name === label)
+                  .map(event => Date.parse(event.created_at))
+                  .pop();
+                if (!labeledAt || labeledAt > cutoff) {
+                  continue;
+                }
+
+                const comments = await github.paginate(github.rest.issues.listComments, {
+                  ...context.repo,
+                  issue_number: issue.number,
+                  since: new Date(labeledAt).toISOString(),
+                  per_page: 100,
+                });
+                if (comments.some(comment => comment.user?.login === issue.user.login)) {
+                  continue;
+                }
+
+                await github.rest.issues.createComment({
+                  ...context.repo,
+                  issue_number: issue.number,
+                  body:
+                    `Closing this after ${IDLE_DAYS} days without the information we asked for. ` +
+                    `That is not a verdict on the report — add it in a comment and we pick this up again.`,
+                });
+                await github.rest.issues.update({
+                  ...context.repo,
+                  issue_number: issue.number,
+                  state: 'closed',
+                  state_reason: 'not_planned',
+                });
+              }
+            }

@@ -1,0 +1,18 @@
+name: Contributions (this repo)
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+  issue_comment:
+    types: [created]
+  schedule:
+    - cron: '30 5 * * *'
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  contributions:
+    uses: ./.github/workflows/contributions.yml
