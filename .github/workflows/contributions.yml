@@ -165,7 +165,7 @@ jobs:
               `The assignment is released after 14 days without a comment or an open pull request.`,
             );
 
-      - name: Remove state/needs-reply on an answer from the author
+      - name: Remove state/needs-reply and state/needs-reproduction on an answer from the author
         uses: actions/github-script@v9
         with:
           script: |
@@ -173,18 +173,20 @@ jobs:
             if (comment.user.login !== issue.user.login) {
               return;
             }
-            if (!issue.labels.some(label => label.name === 'state/needs-reply')) {
-              return;
-            }
-            try {
-              await github.rest.issues.removeLabel({
-                ...context.repo,
-                issue_number: issue.number,
-                name: 'state/needs-reply',
-              });
-            } catch (error) {
-              if (error.status !== 404) {
-                throw error;
+            for (const label of ['state/needs-reply', 'state/needs-reproduction']) {
+              if (!issue.labels.some(issueLabel => issueLabel.name === label)) {
+                continue;
+              }
+              try {
+                await github.rest.issues.removeLabel({
+                  ...context.repo,
+                  issue_number: issue.number,
+                  name: label,
+                });
+              } catch (error) {
+                if (error.status !== 404) {
+                  throw error;
+                }
               }
             }
 
