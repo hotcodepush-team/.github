@@ -5,7 +5,7 @@ contact_links:
     about: Ask in the org-wide GitHub Discussions, where the answer stays readable for everyone.
   - name: Account, billing, console, API or docs
     url: https://hotcodepush.com/docs/support
-    about: Write to support@hotcodepush.com. This tracker takes bug reports and feature requests only.
+    about: Write to support@hotcodepush.com. This tracker takes bug reports, feature requests and ideas only.
   - name: Security vulnerability
     url: https://github.com/hotcodepush-team/.github/security/policy
     about: Report it privately through GitHub's private vulnerability reporting, never as a public issue.
