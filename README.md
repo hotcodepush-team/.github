@@ -57,7 +57,7 @@ jobs:
     steps:
       - uses: EndBug/label-sync@v2
         with:
-          delete-other-labels: ${{ inputs.prune }}
+          delete-other-labels: ${{ inputs.prune == true }}
           config-file: |
             https://raw.githubusercontent.com/hotcodepush-team/.github/main/labels/common.yml
             https://raw.githubusercontent.com/hotcodepush-team/.github/main/labels/release.yml
