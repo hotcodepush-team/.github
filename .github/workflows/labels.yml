@@ -40,6 +40,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: hotcodepush-team
           repositories: .github
+          permission-contents: read
       - name: Check out the manifests
         if: steps.secrets.outputs.ready == 'true'
         uses: actions/checkout@v7
