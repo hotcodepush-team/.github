@@ -58,7 +58,6 @@ jobs:
     with:
       sets: common release
       prune: ${{ inputs.prune == true }}
-    secrets: inherit
 ```
 
 The reusable workflow checks this repository out and syncs the caller's labels with the caller's own `GITHUB_TOKEN`, which works once this repository is public; until then every caller stays disabled and no sync runs.
