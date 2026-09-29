@@ -15,9 +15,9 @@ Nothing here is a product. Every file is either read by GitHub at a fixed path o
 | `.github/ISSUE_TEMPLATE/` | the three forms and the chooser | every org repository without its own `ISSUE_TEMPLATE` folder |
 | `.github/PULL_REQUEST_TEMPLATE.md` | the pull request template | every org repository, always; it is never overridden |
 | `labels/*.yml` | the label sets | every repository's `labels.yml` workflow |
-| `.github/workflows/contributions.yml`, `stale.yml` | reusable workflows | every repository's caller of the same name |
+| `.github/workflows/contributions.yml`, `labels.yml`, `stale.yml` | reusable workflows | every repository's caller of the same name |
 | `skills/*/SKILL.md` | the developer skills | every repository's `.claude/skills/`, via the skills CLI |
-| `.github/workflows/*-caller.yml` | this repository's own callers | this repository only |
+| `.github/workflows/*-caller.yml`, `labels-local.yml` | this repository's own callers and its own label sync | this repository only |
 
 No `.mcp.json` here: this repository has no stack, so no MCP server earns its context.
 
@@ -76,7 +76,7 @@ After a change, each repository picks it up with a skills update run and a commi
 
 | What | How |
 |---|---|
-| Labels | a `labels.yml` workflow pulling the manifests by URL; the template is in the [README](README.md) |
+| Labels | a `labels.yml` caller naming its sets, with `secrets: inherit`; the template is in the [README](README.md) |
 | Contributions and stale | a caller workflow with `uses: hotcodepush-team/.github/.github/workflows/<name>.yml@main`; the templates are in the [README](README.md) |
 | Skills | `npx skills add hotcodepush-team/.github`, pinned in that repository's `skills-lock.json` |
 | Health files, forms, the pull request template | nothing to do; GitHub falls back to this repository on its own |

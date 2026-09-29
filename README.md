@@ -22,18 +22,19 @@ This repository's own automation runs from `.github/workflows/`:
 
 | Workflow | Trigger | Does |
 |---|---|---|
-| `labels.yml` | weekly, on a manifest push, manual | syncs this repository's labels from the local manifests |
+| `labels.yml` | called | syncs the caller's labels from the manifests here |
+| `labels-local.yml` | weekly, on a manifest push, manual | syncs this repository's labels from the local manifests |
 | `contributions.yml` | called | the pull request checks, `assign me`, the daily sweep |
 | `stale.yml` | called | 21 idle days to `stale`, seven more to close |
 | `contributions-caller.yml`, `stale-caller.yml` | events, schedule | this repository's own callers of the two |
 
 ## For other repositories
 
-Copy these into the repository. They need no secret: each workflow's own `GITHUB_TOKEN` is enough.
+Copy these into the repository. Contributions and stale need no secret, the workflow's own `GITHUB_TOKEN` is enough; the label sync also needs the organization secrets `APP_ID` and `APP_PRIVATE_KEY`, passed with `secrets: inherit`.
 
 ### Label sync
 
-`.github/workflows/labels.yml`, pulling the sets the repository uses by URL. Add the manifest lines the repository needs — `release.yml` where it publishes an artifact, `platform-mobile.yml` for a client SDK, `platform-desktop.yml` for the CLI, `area.yml` for the monorepo.
+`.github/workflows/labels.yml`, naming the sets the repository uses in `sets` — `common` everywhere, plus `release` where it publishes an artifact, `platform-mobile` for a client SDK, `platform-desktop` for the CLI, `area` for the monorepo.
 
 ```yaml
 name: Sync labels
@@ -53,17 +54,16 @@ permissions:
   issues: write
 jobs:
   sync:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: EndBug/label-sync@v2
-        with:
-          delete-other-labels: ${{ inputs.prune == true }}
-          config-file: |
-            https://raw.githubusercontent.com/hotcodepush-team/.github/main/labels/common.yml
-            https://raw.githubusercontent.com/hotcodepush-team/.github/main/labels/release.yml
+    uses: hotcodepush-team/.github/.github/workflows/labels.yml@main
+    with:
+      sets: common release
+      prune: ${{ inputs.prune == true }}
+    secrets: inherit
 ```
 
-The raw URLs resolve once this repository is public. While it is private they return 404, so this repository syncs its own labels from a checkout instead — see `.github/workflows/labels.yml` here.
+The reusable workflow checks this private repository out with a short-lived token of the `hotcodepush-agent` GitHub App, minted from the organization secrets `APP_ID` and `APP_PRIVATE_KEY`, and syncs the caller's labels with the caller's own `GITHUB_TOKEN`.
+Until both secrets are set, it prints a notice and syncs nothing.
+This repository syncs its own labels from a plain checkout instead — see `.github/workflows/labels-local.yml`.
 
 Run the prune once after a repository is created, to drop GitHub's defaults:
 
@@ -112,7 +112,7 @@ jobs:
     uses: hotcodepush-team/.github/.github/workflows/stale.yml@main
 ```
 
-Both callers reach a reusable workflow in a private repository only while this repository's Actions access allows the organization; once it is public, nothing is needed.
+The three callers reach a reusable workflow in a private repository only while this repository's Actions access allows the organization; once it is public, nothing is needed.
 
 ### Skills
 
