@@ -30,7 +30,7 @@ This repository's own automation runs from `.github/workflows/`:
 
 ## For other repositories
 
-Copy these into the repository. Contributions and stale need no secret, the workflow's own `GITHUB_TOKEN` is enough; the label sync also needs the organization secrets `APP_ID` and `APP_PRIVATE_KEY`, passed with `secrets: inherit`.
+Copy these into the repository. None of them needs a secret, the workflow's own `GITHUB_TOKEN` is enough. The label sync caller stays disabled until this repository is public, since the manifests are read from here.
 
 ### Label sync
 
@@ -61,7 +61,7 @@ jobs:
     secrets: inherit
 ```
 
-The reusable workflow checks this private repository out with a short-lived token of the `hotcodepush-agent` GitHub App, minted from the organization secrets `APP_ID` and `APP_PRIVATE_KEY`, and syncs the caller's labels with the caller's own `GITHUB_TOKEN`.
+The reusable workflow checks this repository out and syncs the caller's labels with the caller's own `GITHUB_TOKEN`, which works once this repository is public; until then every caller stays disabled and no sync runs.
 Until both secrets are set, it prints a notice and syncs nothing.
 This repository syncs its own labels from a plain checkout instead — see `.github/workflows/labels-local.yml`.
 

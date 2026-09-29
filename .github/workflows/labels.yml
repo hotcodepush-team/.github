@@ -19,38 +19,13 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Check the secrets
-        id: secrets
-        env:
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
-        run: |
-          if [ -z "$APP_ID" ] || [ -z "$APP_PRIVATE_KEY" ]; then
-            echo "::notice::APP_ID or APP_PRIVATE_KEY is not set in the organization secrets; no label is synced."
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          fi
-      - name: Mint a token that reads this repository
-        id: app-token
-        if: steps.secrets.outputs.ready == 'true'
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: hotcodepush-team
-          repositories: .github
-          permission-contents: read
       - name: Check out the manifests
-        if: steps.secrets.outputs.ready == 'true'
         uses: actions/checkout@v7
         with:
           repository: hotcodepush-team/.github
-          token: ${{ steps.app-token.outputs.token }}
           path: org-config
       - name: Resolve the manifest paths
         id: manifests
-        if: steps.secrets.outputs.ready == 'true'
         env:
           SETS: ${{ inputs.sets }}
         run: |
@@ -60,7 +35,6 @@ jobs:
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
       - name: Sync the labels
-        if: steps.secrets.outputs.ready == 'true'
         uses: EndBug/label-sync@v2
         with:
           delete-other-labels: ${{ inputs.prune == true }}
