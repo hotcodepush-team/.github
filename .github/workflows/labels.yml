@@ -35,7 +35,7 @@ jobs:
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
       - name: Sync the labels
-        uses: EndBug/label-sync@v2
+        uses: EndBug/label-sync@52074158190acb45f3077f9099fea818aa43f97a # v2.3.3
         with:
           delete-other-labels: ${{ inputs.prune == true }}
           config-file: ${{ steps.manifests.outputs.paths }}
