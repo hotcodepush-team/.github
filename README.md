@@ -27,6 +27,7 @@ This repository's own automation runs from `.github/workflows/`:
 | `contributions.yml` | called | the pull request checks, `assign me`, the daily sweep |
 | `stale.yml` | called | 21 idle days to `stale`, seven more to close |
 | `contributions-caller.yml`, `stale-caller.yml` | events, schedule | this repository's own callers of the two |
+| `blog-posts.yml` | daily, manual | refreshes the profile's blog list from the blog's RSS feed |
 
 ## For other repositories
 

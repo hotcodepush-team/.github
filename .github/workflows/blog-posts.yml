@@ -1,0 +1,27 @@
+name: Blog posts
+
+on:
+  schedule:
+    - cron: '45 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    name: Refresh the blog list in the org profile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: gautamkrishnar/blog-post-workflow@f177491c77670f150ab4e9b9890254d8eba4164b # 1.9.7
+        # The action exits 1 when it cannot read the feed, which does not exist before the blog ships.
+        continue-on-error: true
+        with:
+          feed_list: https://hotcodepush.com/blog/rss.xml
+          readme_path: profile/README.md
+          max_post_count: 5
+          enable_keepalive: false
+          commit_message: 'chore(profile): the five newest blog posts'
+          committer_username: github-actions[bot]
+          committer_email: 41898282+github-actions[bot]@users.noreply.github.com
