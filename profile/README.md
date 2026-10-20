@@ -21,7 +21,7 @@ HotCodePush is the open platform for over-the-air code updates — the standard 
 It is built by the team behind Capawesome, on the architecture that already delivers live updates at scale.
 
 - JavaScript and asset changes reach installed apps in about a minute, with no store review in between.
-- 1,000 monthly active users (MAU) free, no credit card required.
+- 1,000 monthly active devices (MAU) free, no credit card required.
 - Pay-as-you-go at $1 per 1,000 MAU, from $5 a month, with a spending cap you set.
 - 99.9% uptime committed on every paid plan, for update delivery and for the control plane.
 
