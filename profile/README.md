@@ -21,46 +21,47 @@ HotCodePush is the open platform for over-the-air code updates — the standard 
 It is built by the team behind Capawesome, on the architecture that already delivers live updates at scale.
 
 - JavaScript and asset changes reach installed apps in about a minute, with no store review in between.
-- 1,000 monthly active users free, no credit card.
-- $1 per 1,000 monthly active users after that, from $5 a month, with a spending cap you set.
-- 99.9% uptime committed on both surfaces — update delivery and the control plane — on every paid plan.
+- 1,000 monthly active users (MAU) free, no credit card required.
+- Pay-as-you-go at $1 per 1,000 MAU, from $5 a month, with a spending cap you set.
+- 99.9% uptime committed on every paid plan, for update delivery and for the control plane.
 
-[Pricing](https://hotcodepush.com/pricing) · [How an update is delivered](https://hotcodepush.com/docs/concepts/what-is-hot-code-push)
+[Pricing](https://hotcodepush.com/pricing) · [What is hot code push](https://hotcodepush.com/docs/concepts/what-is-hot-code-push)
 
 ## SDKs
 
-One repository per framework, all MIT.
+One repository per framework, every SDK MIT.
 
-| Framework | SDK | Guide |
-|---|---|---|
-| Capacitor | [`capacitor-live-updates`](https://github.com/hotcodepush-team/capacitor-live-updates) | [Capacitor live updates](https://hotcodepush.com/capacitor-live-updates) |
-| React Native | [`react-native-code-push`](https://github.com/hotcodepush-team/react-native-code-push) | [React Native CodePush](https://hotcodepush.com/react-native-code-push) |
-| Expo | [`expo-ota-updates`](https://github.com/hotcodepush-team/expo-ota-updates) | [Expo OTA updates](https://hotcodepush.com/expo-ota-updates) |
-| Cordova | [`cordova-code-push`](https://github.com/hotcodepush-team/cordova-code-push) | [Cordova code push](https://hotcodepush.com/cordova-code-push) |
+- **Capacitor** — [`capacitor-live-updates`](https://github.com/hotcodepush-team/capacitor-live-updates) · [hotcodepush.com/capacitor-live-updates](https://hotcodepush.com/capacitor-live-updates)
+- **React Native** — [`react-native-code-push`](https://github.com/hotcodepush-team/react-native-code-push) · [hotcodepush.com/react-native-code-push](https://hotcodepush.com/react-native-code-push)
+- **Expo** — [`expo-ota-updates`](https://github.com/hotcodepush-team/expo-ota-updates) · [hotcodepush.com/expo-ota-updates](https://hotcodepush.com/expo-ota-updates)
+- **Cordova** — [`cordova-code-push`](https://github.com/hotcodepush-team/cordova-code-push) · [hotcodepush.com/cordova-code-push](https://hotcodepush.com/cordova-code-push)
 
-Electron, Tauri and Flutter follow after launch.
+NativeScript, Electron and Tauri come later.
 
 ## Tooling
 
-- **CLI** — [`cli`](https://github.com/hotcodepush-team/cli). `npx hotcodepush init` goes from sign-in to the first live update. [Reference](https://hotcodepush.com/docs/cli)
-- **CI/CD** — every commit on `main` as a live update, with recipes for GitHub Actions, GitLab CI/CD, Bitbucket Pipelines and Azure DevOps. [Ship from CI](https://hotcodepush.com/docs/ci)
-- **MCP server** — [`mcp`](https://github.com/hotcodepush-team/mcp) gives an agent the documentation and the platform API.
-- **Agent skills** — [`skills`](https://github.com/hotcodepush-team/skills) sets a project up, ships a release and debugs a device that did not update. [Set up with an AI agent](https://hotcodepush.com/docs/ai)
-- **Typed clients** — [`hotcodepush-node`](https://github.com/hotcodepush-team/hotcodepush-node) and [`hotcodepush-python`](https://github.com/hotcodepush-team/hotcodepush-python), both generated against the published OpenAPI spec.
+- **CLI** — [`cli`](https://github.com/hotcodepush-team/cli). `npx hotcodepush init` detects the framework, signs you in, creates the app and ships the first release: under sixty seconds from `init` to a live update. [CLI reference](https://hotcodepush.com/docs/cli)
+- **CI/CD** — [`release-action`](https://github.com/hotcodepush-team/release-action), the GitHub Action around the CLI, and one recipe each for GitHub Actions, GitLab CI/CD, Bitbucket Pipelines and Azure DevOps, so every commit on `main` is a live update. [Ship from CI](https://hotcodepush.com/docs/ci)
+- **MCP server** — [`mcp`](https://github.com/hotcodepush-team/mcp) connects an agent to the documentation and, with an API token, to the platform API.
+- **Agent skills** — [`skills`](https://github.com/hotcodepush-team/skills): `init`, `release` and `debug-no-update`, the three skills a customer's agent installs. [Set up with an AI agent](https://hotcodepush.com/docs/ai)
 
 ## Migrating from CodePush or Appflow
 
 Coming from App Center CodePush or Ionic Appflow, you are home.
-Existing CodePush clients change a URL; the concepts you already use — deployments, targeted binary versions, mandatory updates, staged rollouts, rollbacks — keep their names and their behavior.
-Both guides are written as a checklist, with the differences named where they exist rather than glossed over.
+The CodePush guide puts the React Native SDK in place of the CodePush client at your app's next native release, and you keep delta updates: precomputed delta packs with the main bundle inside as a byte-level patch, typically smaller than file-level diffs.
+The Appflow guide names the fork: Capawesome Cloud for the all-in-one shape with native builds and store publishing, HotCodePush for OTA depth.
 
 [Migrate from CodePush](https://hotcodepush.com/docs/migrate/codepush) · [Migrate from Ionic Appflow](https://hotcodepush.com/docs/migrate/ionic-appflow)
 
 ## Latest from the blog
 
-The blog opens with the launch, at [hotcodepush.com/blog](https://hotcodepush.com/blog).
-Every shipped feature also gets an entry in the [changelog](https://hotcodepush.com/changelog).
+<!-- BLOG-POST-LIST:START -->
+<!-- BLOG-POST-LIST:END -->
+
+[All posts](https://hotcodepush.com/blog) · [Changelog](https://hotcodepush.com/changelog)
 
 ## Connect
 
-[Website](https://hotcodepush.com) · [Discussions](https://github.com/orgs/hotcodepush-team/discussions) · [Changelog](https://hotcodepush.com/changelog) · [Status](https://status.hotcodepush.com) · [Newsletter](https://hotcodepush.com/newsletter)
+[Website](https://hotcodepush.com) · [Discussions](https://github.com/orgs/hotcodepush-team/discussions) · [Newsletter](https://hotcodepush.com/newsletter)
+
+<!-- TODO: the social profiles, once the handles are decided — X · LinkedIn · YouTube · Discord -->
