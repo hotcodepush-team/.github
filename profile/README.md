@@ -43,7 +43,7 @@ NativeScript, Electron and Tauri come later.
 - **CLI** — [`cli`](https://github.com/hotcodepush-team/cli). `npx hotcodepush init` detects the framework, signs you in, creates the app and ships the first release: under sixty seconds from `init` to a live update. [CLI reference](https://hotcodepush.com/docs/cli)
 - **CI/CD** — [`release-action`](https://github.com/hotcodepush-team/release-action), the GitHub Action around the CLI, and one recipe each for GitHub Actions, GitLab CI/CD, Bitbucket Pipelines and Azure DevOps, so every commit on `main` is a live update. [Ship from CI](https://hotcodepush.com/docs/ci)
 - **MCP server** — [`mcp`](https://github.com/hotcodepush-team/mcp) connects an agent to the documentation and, with an API token, to the platform API.
-- **Agent skills** — [`skills`](https://github.com/hotcodepush-team/skills): `init`, `release` and `debug-no-update`, the three skills a customer's agent installs. [Set up with an AI agent](https://hotcodepush.com/docs/ai)
+- **Agent skills** — [`skills`](https://github.com/hotcodepush-team/skills): `hotcodepush-init`, `hotcodepush-release` and `hotcodepush-debug-no-update`, the three skills a customer's agent installs. [Set up with an AI agent](https://hotcodepush.com/docs/ai)
 
 ## Migrating from CodePush or Appflow
 
