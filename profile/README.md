@@ -9,7 +9,7 @@
 
 **Hot code push for every app.**
 
-[Website](https://hotcodepush.com) · [Documentation](https://hotcodepush.com/docs) · [Blog](https://hotcodepush.com/blog) · [Discussions](https://github.com/orgs/hotcodepush-team/discussions)
+[Website](https://hotcodepush.com) · [Documentation](https://hotcodepush.com/docs) · [Discussions](https://github.com/orgs/hotcodepush-team/discussions)
 
 </div>
 
@@ -52,13 +52,6 @@ The CodePush guide puts the React Native SDK in place of the CodePush client at 
 The Appflow guide names the fork: Capawesome Cloud for the all-in-one shape with native builds and store publishing, HotCodePush for OTA depth.
 
 [Migrate from CodePush](https://hotcodepush.com/docs/migrate/codepush) · [Migrate from Ionic Appflow](https://hotcodepush.com/docs/migrate/ionic-appflow)
-
-## Latest from the blog
-
-<!-- BLOG-POST-LIST:START -->
-<!-- BLOG-POST-LIST:END -->
-
-[All posts](https://hotcodepush.com/blog) · [Changelog](https://hotcodepush.com/changelog)
 
 ## Connect
 

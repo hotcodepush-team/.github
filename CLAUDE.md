@@ -17,7 +17,7 @@ Nothing here is a product. Every file is either read by GitHub at a fixed path o
 | `labels/*.yml` | the label sets | every repository's `labels.yml` workflow |
 | `.github/workflows/contributions.yml`, `labels.yml`, `stale.yml` | reusable workflows | every repository's caller of the same name |
 | `skills/*/SKILL.md` | the developer skills | every repository's `.claude/skills/`, via the skills CLI |
-| `.github/workflows/*-caller.yml`, `labels-local.yml`, `blog-posts.yml` | this repository's own callers, its own label sync and the profile's blog list refresh | this repository only |
+| `.github/workflows/*-caller.yml`, `labels-local.yml` | this repository's own callers and its own label sync | this repository only |
 
 No `.mcp.json` here: this repository has no stack, so no MCP server earns its context.
 
