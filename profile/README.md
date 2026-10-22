@@ -17,8 +17,8 @@
 
 ## What it is
 
-HotCodePush is the open platform for over-the-air code updates — the standard way to ship code updates to Capacitor, Cordova, React Native and Expo apps.
-It is built by the team behind Capawesome, on the architecture that already delivers live updates at scale.
+HotCodePush is the open platform for over-the-air (OTA) code updates — the standard way to ship code updates to Capacitor, Cordova, React Native and Expo apps.
+It is built by the team behind Capawesome, on the architecture that already delivers OTA updates at scale.
 
 - JavaScript and asset changes reach installed apps in about a minute, with no store review in between.
 - 1,000 monthly active devices (MAU) free, no credit card required.
@@ -40,8 +40,8 @@ NativeScript, Electron and Tauri come later.
 
 ## Tooling
 
-- **CLI** — [`cli`](https://github.com/hotcodepush-team/cli). `npx hotcodepush init` detects the framework, signs you in, creates the app and ships the first release: under sixty seconds from `init` to a live update. [CLI reference](https://hotcodepush.com/docs/cli)
-- **CI/CD** — [`release-action`](https://github.com/hotcodepush-team/release-action), the GitHub Action around the CLI, and one recipe each for GitHub Actions, GitLab CI/CD, Bitbucket Pipelines and Azure DevOps, so every commit on `main` is a live update. [Ship from CI](https://hotcodepush.com/docs/ci)
+- **CLI** — [`cli`](https://github.com/hotcodepush-team/cli). `npx hotcodepush init` detects the framework, signs you in, creates the app and ships the first release: under sixty seconds from `init` to an OTA update. [CLI reference](https://hotcodepush.com/docs/cli)
+- **CI/CD** — [`release-action`](https://github.com/hotcodepush-team/release-action), the GitHub Action around the CLI, and one recipe each for GitHub Actions, GitLab CI/CD, Bitbucket Pipelines and Azure DevOps, so every commit on `main` is an OTA update. [Ship from CI](https://hotcodepush.com/docs/ci)
 - **MCP server** — [`mcp`](https://github.com/hotcodepush-team/mcp) connects an agent to the documentation and, with an API token, to the platform API.
 - **Agent skills** — [`skills`](https://github.com/hotcodepush-team/skills): `hotcodepush-init`, `hotcodepush-release` and `hotcodepush-debug-no-update`, the three skills a customer's agent installs. [Set up with an AI agent](https://hotcodepush.com/docs/ai)
 
