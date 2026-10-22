@@ -17,7 +17,7 @@
 
 ## What it is
 
-HotCodePush is the open platform for over-the-air (OTA) code updates — the standard way to ship code updates to Capacitor, Cordova, React Native and Expo apps.
+HotCodePush is the open platform for over-the-air (OTA) code updates — the standard way to ship code updates to React Native, Expo, Capacitor and Cordova apps.
 It is built by the team behind Capawesome, on the architecture that already delivers OTA updates at scale.
 
 - JavaScript and asset changes reach installed apps in about a minute, with no store review in between.
@@ -31,9 +31,9 @@ It is built by the team behind Capawesome, on the architecture that already deli
 
 One repository per framework, every SDK MIT.
 
-- **Capacitor** — [`capacitor-live-updates`](https://github.com/hotcodepush-team/capacitor-live-updates) · [hotcodepush.com/capacitor-live-updates](https://hotcodepush.com/capacitor-live-updates)
 - **React Native** — [`react-native-code-push`](https://github.com/hotcodepush-team/react-native-code-push) · [hotcodepush.com/react-native-code-push](https://hotcodepush.com/react-native-code-push)
 - **Expo** — [`expo-ota-updates`](https://github.com/hotcodepush-team/expo-ota-updates) · [hotcodepush.com/expo-ota-updates](https://hotcodepush.com/expo-ota-updates)
+- **Capacitor** — [`capacitor-live-updates`](https://github.com/hotcodepush-team/capacitor-live-updates) · [hotcodepush.com/capacitor-live-updates](https://hotcodepush.com/capacitor-live-updates)
 - **Cordova** — [`cordova-code-push`](https://github.com/hotcodepush-team/cordova-code-push) · [hotcodepush.com/cordova-code-push](https://hotcodepush.com/cordova-code-push)
 
 NativeScript, Electron and Tauri come later.
