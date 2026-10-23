@@ -14,7 +14,7 @@ jobs:
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v9
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const types = ['feat', 'fix', 'docs', 'perf', 'refactor', 'test', 'build', 'ci', 'chore'];
@@ -36,7 +36,7 @@ jobs:
     outputs:
       issue: ${{ steps.link.outputs.issue }}
     steps:
-      - uses: actions/github-script@v9
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         id: link
         with:
           script: |
@@ -61,7 +61,7 @@ jobs:
     needs: pull-request-linked-issue
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v9
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           LINKED_ISSUE: ${{ needs.pull-request-linked-issue.outputs.issue }}
           CONTRIBUTING_URL: https://github.com/hotcodepush-team/.github/blob/main/CONTRIBUTING.md
@@ -116,7 +116,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Claim an issue with "assign me"
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const { issue, comment } = context.payload;
@@ -166,7 +166,7 @@ jobs:
             );
 
       - name: Remove state/needs-reply and state/needs-reproduction on an answer from the author
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const { issue, comment } = context.payload;
@@ -196,7 +196,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Release idle assignments
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const IDLE_DAYS = 14;
@@ -270,7 +270,7 @@ jobs:
             }
 
       - name: Close issues that never got an answer
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const IDLE_DAYS = 14;
