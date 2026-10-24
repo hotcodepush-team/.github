@@ -45,6 +45,18 @@ jobs:
               core.info('The author is a bot, which is exempt.');
               return;
             }
+            if (context.payload.repository.private) {
+              core.info('The repository is private, so the gate for outside contributors does not apply.');
+              return;
+            }
+            const { data: collaborator } = await github.rest.repos.getCollaboratorPermissionLevel({
+              ...context.repo,
+              username: pullRequest.user.login,
+            });
+            if (collaborator.permission === 'admin' || collaborator.permission === 'write') {
+              core.info(`${pullRequest.user.login} has write access and is exempt.`);
+              return;
+            }
             const match = /\b(?:closes|fixes|resolves)\s+#(\d+)\b/i.exec(pullRequest.body ?? '');
             if (!match) {
               core.setFailed(
