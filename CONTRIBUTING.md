@@ -13,7 +13,7 @@ No issue yet? Open one first, through one of the [issue forms](https://github.co
 ## Your pull request
 
 The [pull request template](https://github.com/hotcodepush-team/.github/blob/main/.github/PULL_REQUEST_TEMPLATE.md) is the checklist.
-Two of its items are checked automatically: the title has to be a conventional commit, and the body has to link the issue with `Closes #`, `Fixes #` or `Resolves #`.
+Two of its items are checked automatically: the title has to be a conventional commit, and the body has to link the issue with `Closes #`, `Fixes #` or `Resolves #`. The linked issue is asked of outside contributors on public repositories; maintainers with write access and private repositories are exempt.
 
 ## License
 
