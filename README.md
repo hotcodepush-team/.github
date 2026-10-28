@@ -1,7 +1,19 @@
 # .github
 
-The configuration repository of the `hotcodepush-team` organization: the org profile, the community health files, the default issue forms and the pull request template, the label manifests, the reusable workflows and the developer skills.
+The configuration repository of the `hotcodepush-team` organization: the org profile, the community health files, the issue forms and the pull request template, the label manifests, the reusable workflows and the developer skills.
 Everything in it applies to every repository of the organization that carries no file of its own.
+
+## Project structure
+
+```
+profile/                   the org profile README and logos
+CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md   the default community health files
+.github/ISSUE_TEMPLATE/    the default issue forms
+.github/PULL_REQUEST_TEMPLATE.md
+.github/workflows/         the reusable workflows and this repository's own callers
+labels/                    the label manifests, one set per file
+skills/                    the developer skills: create-pr, resolve-issue, review-pr, triage-issue, validate-issue
+```
 
 ## Development
 
@@ -28,8 +40,8 @@ A push to `main` is the deployment: GitHub picks up the profile, the health file
 
 ## Usage in other repositories
 
-Copy the three callers into the repository's `.github/workflows/`; none needs a secret, the workflow's own `GITHUB_TOKEN` is enough.
-The reusable workflows are reachable from a private repository only while this repository's Actions access allows the organization; once it is public, nothing is needed.
+Copy the three callers below into the repository's `.github/workflows/`; none needs a secret.
+A private repository can call them only while this repository's Actions access allows the organization; once it is public, nothing is needed.
 
 `labels.yml` names the label sets the repository uses in `sets`: `common` everywhere, plus `release` where it publishes an artifact, `platform-mobile` for a client SDK, `platform-desktop` for the CLI, `area` for the monorepo.
 It stays disabled until this repository is public, since the manifests are read from here.
@@ -104,7 +116,10 @@ npx skills add hotcodepush-team/.github --skill triage-issue
 
 ## Handbook
 
-`agents.md` holds the labels, the templates and the agent workspaces, `repositories.md` the workflows, the README rules and licensing.
+| Topic                                           | Doc                    |
+| ----------------------------------------------- | ---------------------- |
+| The labels, the templates, the agent workspaces | `docs/agents.md`       |
+| The workflows, the README rules, licensing      | `docs/repositories.md` |
 
 ## License
 
