@@ -1,0 +1,3 @@
+- name: device-tests
+  color: '5319e7'
+  description: Runs the device tests on the PR and on every push while set; the night runs them on main anyway

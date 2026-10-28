@@ -43,7 +43,7 @@ A push to `main` is the deployment: GitHub picks up the profile, the health file
 Copy the three callers below into the repository's `.github/workflows/`; none needs a secret.
 A private repository can call them only while this repository's Actions access allows the organization; once it is public, nothing is needed.
 
-`labels.yml` names the label sets the repository uses in `sets`: `common` everywhere, plus `release` where it publishes an artifact, `platform-mobile` for a client SDK, `platform-desktop` for the CLI, `area` for the monorepo.
+`labels.yml` names the label sets the repository uses in `sets`: `common` everywhere, plus `release` where it publishes an artifact, `platform-mobile` for a client SDK, `platform-desktop` for the CLI, `area` and `device-tests` for the monorepo.
 It stays disabled until this repository is public, since the manifests are read from here.
 
 ```yaml
