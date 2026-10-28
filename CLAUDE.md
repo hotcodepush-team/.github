@@ -10,7 +10,7 @@ Nothing here is a product. Every file is either read by GitHub at a fixed path o
 
 | Path | What it is | Who reads it |
 |---|---|---|
-| `profile/README.md` | the organization's front page | GitHub, at `github.com/hotcodepush-team` |
+| `profile/README.draft.md` | the organization's front page, held back until launch; GitHub shows it once it is `profile/README.md` | GitHub, at `github.com/hotcodepush-team` |
 | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md` | the community health files | every org repository without its own copy |
 | `.github/ISSUE_TEMPLATE/` | the three forms and the chooser | every org repository without its own `ISSUE_TEMPLATE` folder |
 | `.github/PULL_REQUEST_TEMPLATE.md` | the pull request template | every org repository, always; it is never overridden |
